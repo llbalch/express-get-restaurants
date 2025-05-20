@@ -3,6 +3,11 @@ const app = require("./src/app");
 
 // TODO: Create your GET Request Route Below:
 
+app.get("/restaurants", async (req, res) => {
+  const restaurants = await Restaurant.findAll();
+  res.json(restaurants)
+})
+
 const port = 3000;
 
 app.listen(port, async () => {
