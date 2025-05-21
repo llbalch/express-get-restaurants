@@ -1,11 +1,10 @@
 const express = require("express");
 const app = express();
-const Restaurant = require("../models/index");
 const db = require("../db/connection");
 const { restRouter } = require("../routes/restaurants")
 
 //TODO: Create your GET Request Route Below:
-
+// Middleware
 app.use(express.json())
 app.use(express.urlencoded())
 app.use("/restaurants", restRouter)
