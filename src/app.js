@@ -15,14 +15,18 @@ app.get("/restaurants", async (req, res) => {
 })
 
 app.get("/restaurants/:id", async (req, res) => {
-  const foundId = (req.params.id)
-  const foundRestaurant = await Restaurant.findByPk(foundId)
-  res.json(foundRestaurant)
+  const foundId = parseInt(req.params.id)
+  const foundRestaurant = await Restaurant.findOne({ where: { foundId } })
+  if (foundRestaurant) {
+    res.json(foundRestaurant)
+} else {
+  res.status(404).json({ error: "Restaurant not found" })
+}
 })
 // route for creating (adding) a new restaurant on the restaurant database
 app.post("/restaurants", async (req, res) => {
   const newRestaurant = await Restaurant.create(req.body)
-  res.json(newRestaurant)
+  res.status(201).send("The array has been added with a new resaurant")
 })
 // route for updating (replacing) an exsisting restaurant with a new restaurant in the database based on ID in the route
 app.put("/restaurants/:id", async (req, res) => {
@@ -36,7 +40,11 @@ app.delete("/restaurants/:id", async (req, res) => {
   const deleted = await Restaurant.destroy(
     { where: { id: req.params.id } }
   )
-  res.send("Resource deleted successfully")
+  if(deleted){
+    res.status(200).send("Restaurant deleted successfully")
+  } else {
+    res.status(404).send()
+  }
 })
 
 

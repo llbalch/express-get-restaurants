@@ -1,27 +1,6 @@
 const express = require("express");
 const restRouter = express.Router();
-const Restaurant = require("../models/Restaurant")
-// import the seed data
-// const seedRestaurant = require("../seedData");
-
-// initializes the array with the seed data
-// let restaurants = [
-//   {
-//     name: "AppleBees",
-//     location: "Texas",
-//     cuisine: "FastFood",
-//   },
-//   {
-//     name: "LittleSheep",
-//     location: "Dallas",
-//     cuisine: "Hotpot",
-//   },
-//   {
-//     name: "Spice Grill",
-//     location: "Houston",
-//     cuisine: "Indian",
-//   },
-// ]
+const Restaurant = require("../models/index")
 
 // adding a new restaurant to the array
 restRouter.post("/", async (req, res) => {
@@ -36,8 +15,8 @@ restRouter.post("/", async (req, res) => {
 // returns all restaurants in the array
 restRouter.get("/", async (req, res) => {
    try{
-    const restaurants = await Restaurant.find()
-    res.json(restaurants)
+    const restaurants = await Restaurant.findAll()
+    res.status(200).json(restaurants)
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -77,7 +56,9 @@ restRouter.delete("/:id", async (req, res) => {
   const deleted = await Restaurant.destroy({ 
     where: { id: req.params.id }})
     if(deleted){
-      res.json({ message: "Restaurant deleted" })
+      res.status(200).json({ message: "Restaurant deleted" })
+    } else {
+      res.status(404).send()
     }
   } catch (err) {
     res.status(500).json({ error: err.message })
