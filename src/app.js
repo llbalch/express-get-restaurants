@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const db = require("../db/connection");
 const { restRouter } = require("../routes/restaurants")
+const { check, validationResult } = require("express-validator");
 
 //TODO: Create your GET Request Route Below:
 // Middleware
